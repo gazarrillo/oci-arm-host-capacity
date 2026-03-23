@@ -43,7 +43,7 @@ jobs:
 
       - name: Write OCI private key
         run: |
-          echo "${{ secrets.OCI_PRIVATE_KEY_CONTENT }}" > /tmp/oci_private_key.pem
+          echo "${{ secrets.OCI_PRIVATE_KEY_B64 }}" | base64 -d > /tmp/oci_private_key.pem
           chmod 600 /tmp/oci_private_key.pem
 
       - name: Run test suite
@@ -55,6 +55,7 @@ jobs:
           OCI_TENANCY_ID: ${{ secrets.OCI_TENANCY_ID }}
           OCI_KEY_FINGERPRINT: ${{ secrets.OCI_KEY_FINGERPRINT }}
           OCI_PRIVATE_KEY_FILENAME: /tmp/oci_private_key.pem
+          OCI_AVAILABILITY_DOMAIN: ${{ secrets.OCI_AVAILABILITY_DOMAIN }}
           OCI_SUBNET_ID: ${{ secrets.OCI_SUBNET_ID }}
           OCI_IMAGE_ID: ${{ secrets.OCI_IMAGE_ID }}
           OCI_OCPUS: ${{ secrets.OCI_OCPUS }}
