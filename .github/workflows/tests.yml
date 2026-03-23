@@ -45,6 +45,11 @@ jobs:
           if echo "$output" | grep -q "Out of host capacity"; then
             exit 1
           fi
+          curl -s -d "$output" \
+            -H "Title: OCI ARM Instance Provisioned!" \
+            -H "Priority: urgent" \
+            -H "Tags: white_check_mark" \
+            https://ntfy.sh/oracle-vm-0365b4357306
         env:
           OCI_REGION: ${{ secrets.OCI_REGION }}
           OCI_USER_ID: ${{ secrets.OCI_USER_ID }}
