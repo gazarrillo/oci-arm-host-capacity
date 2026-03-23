@@ -1,4 +1,4 @@
-name: Tests
+name: OCI ARM Provisioner
 
 on:
   push:
@@ -39,7 +39,12 @@ jobs:
           chmod 600 /tmp/oci_private_key.pem
 
       - name: Run provisioning script
-        run: php index.php
+        run: |
+          output=$(php index.php)
+          echo "$output"
+          if echo "$output" | grep -q "Out of host capacity"; then
+            exit 1
+          fi
         env:
           OCI_REGION: ${{ secrets.OCI_REGION }}
           OCI_USER_ID: ${{ secrets.OCI_USER_ID }}
